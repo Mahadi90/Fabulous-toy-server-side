@@ -34,6 +34,18 @@ async function run() {
     const carsCollecttion = client.db('carsToyDB').collection('cars')
 
 
+    const indexKeys = { toyName : 1}
+    const indexOptions = { name : 'ToyName' }
+
+    const result = await carsCollecttion.createIndex(indexKeys, indexOptions)
+
+    app.get('/toySearchByName/:text', async(req, res) => {
+      const searchText = req.params.text;
+
+      const result =await carsCollecttion.find({toyName : {$regex : searchText, $options : "i"}}).toArray()
+      res.send(result)
+    })
+
     app.get('/gallery', async(req, res) => {
       const result = await galleryCollection.find().toArray();
       res.send(result)
