@@ -30,10 +30,16 @@ async function run() {
     await client.connect();
 
     const galleryCollection = client.db('carsToyDB').collection('gallery');
+    const categoryCollection = client.db('carsToyDB').collection('category');
 
 
     app.get('/gallery', async(req, res) => {
       const result = await galleryCollection.find().toArray();
+      res.send(result)
+    })
+
+    app.get('/category', async(req, res) => {
+      const result = await categoryCollection.find().toArray();
       res.send(result)
     })
 
