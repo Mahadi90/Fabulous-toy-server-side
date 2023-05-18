@@ -44,9 +44,23 @@ async function run() {
       res.send(result)
     })
 
+    // cars
+
+    app.get('/allToys', async(req, res) => {
+      const result = await carsCollecttion.find().toArray();
+      res.send(result)
+    })
+
+    app.get('/myToys/:email', async(req, res)=>{
+      const email = req.params.email;
+      console.log(email)
+      const result = await carsCollecttion.find({email : email}).toArray();
+      res.send(result)
+    })
+
     app.post('/cars', async(req, res) => {
       const body = req.body;
-      console.log(body)
+      // console.log(body)
       const result = await carsCollecttion.insertOne(body);
       res.send(result)
     })
