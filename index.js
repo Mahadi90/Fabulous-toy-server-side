@@ -63,6 +63,13 @@ async function run() {
       res.send(result)
     })
 
+    app.get('/allToys/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = { _id : new ObjectId(id)}
+      const resul = await carsCollecttion.findOne(query)
+      res.send(resul)
+    })
+
     app.get('/myToys/:email', async(req, res)=>{
       const email = req.params.email;
       // console.log(email)
@@ -78,11 +85,22 @@ async function run() {
       res.send(result)
     })
 
-    // app.put('/allToys/:id', async(req, res)=> {
-    //   const id = req.params.id;
-    //   const updatedToy = req.body;
-    //   console.log(id, updatedToy)
-    // })
+    app.put('/allToys/:id', async(req, res)=> {
+      const id = req.params.id;
+      const toy = req.body;
+      // console.log(id, toy)
+      const filter = { _id : new ObjectId(id)}
+      const options = {upsert : true};
+      const updatedToys = {
+        $set : {
+          price : toy.price,
+          quantity : toy.quantity,
+          detail : toy.quantity
+        }
+      }
+      const resul = await carsCollecttion.updateOne(filter, updatedToys, options);
+      res.send(resul)
+    })
 
     app.delete('/allToys/:id', async(req, res)=>{
       const id = req.params.id;
