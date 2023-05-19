@@ -95,7 +95,7 @@ async function run() {
         $set : {
           price : toy.price,
           quantity : toy.quantity,
-          detail : toy.quantity
+          detail : toy.detail
         }
       }
       const resul = await carsCollecttion.updateOne(filter, updatedToys, options);
