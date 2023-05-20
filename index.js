@@ -30,8 +30,10 @@ async function run() {
     await client.connect();
 
     const galleryCollection = client.db('carsToyDB').collection('gallery');
-    const categoryCollection = client.db('carsToyDB').collection('category');
     const carsCollecttion = client.db('carsToyDB').collection('cars')
+    const sportsCarCollection = client.db('carsToyDB').collection('sportsCar')
+    const regularCarCollection = client.db('carsToyDB').collection('regularcartoys')
+    const truckCollection = client.db('carsToyDB').collection('trucktoys')
 
 
     const indexKeys = { toyName : 1}
@@ -51,12 +53,44 @@ async function run() {
       res.send(result)
     })
 
-    app.get('/category', async(req, res) => {
-      const result = await categoryCollection.find().toArray();
+    //for the category
+    app.get('/sportsCar', async(req, res) => {
+      const result = await sportsCarCollection.find().toArray();
       res.send(result)
     })
+   app.get('/sportsCar/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id)}
+      const result = await sportsCarCollection.findOne(query);
+      res.send(result)
+   })
 
-    // cars
+    app.get('/regularcartoys', async(req, res) => {
+      const result = await regularCarCollection.find().toArray();
+      res.send(result)
+    })
+    app.get('/regularcartoys/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id)}
+      const result = await regularCarCollection.findOne(query);
+      res.send(result)
+   })
+
+    app.get('/trucktoys', async(req, res) => {
+      const result = await truckCollection.find().toArray();
+      res.send(result)
+    })
+    app.get('/trucktoys/:id', async(req, res)=>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id)}
+      const result = await truckCollection.findOne(query);
+      res.send(result)
+   })
+
+
+   
+
+    // cars all toys
 
     app.get('/allToys', async(req, res) => {
       const result = await carsCollecttion.find().toArray();
