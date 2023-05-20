@@ -27,7 +27,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+     client.connect();
 
     const galleryCollection = client.db('carsToyDB').collection('gallery');
     const carsCollecttion = client.db('carsToyDB').collection('cars')
@@ -107,7 +107,7 @@ async function run() {
     app.get('/myToys/:email', async(req, res)=>{
       const email = req.params.email;
       // console.log(email)
-      const result = await carsCollecttion.find({email : email}).toArray();
+      const result = await carsCollecttion.find({email : email}).sort({price : 1}).toArray();
       res.send(result)
     })
     
