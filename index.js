@@ -7,7 +7,12 @@ const port = process.env.PORT || 5000;
 
 
 // middleware
-app.use(cors())
+const corsConfig = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  }
+  app.use(cors(corsConfig))
 app.use(express.json())
 
 
@@ -27,7 +32,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-     client.connect();
+    //  client.connect();
 
     const galleryCollection = client.db('carsToyDB').collection('gallery');
     const carsCollecttion = client.db('carsToyDB').collection('cars')
@@ -36,10 +41,10 @@ async function run() {
     const truckCollection = client.db('carsToyDB').collection('trucktoys')
 
 
-    const indexKeys = { toyName : 1}
-    const indexOptions = { name : 'ToyName' }
+    // const indexKeys = { toyName : 1}
+    // const indexOptions = { name : 'ToyName' }
 
-    const result = await carsCollecttion.createIndex(indexKeys, indexOptions)
+    // const result = await carsCollecttion.createIndex(indexKeys, indexOptions)
 
     app.get('/toySearchByName/:text', async(req, res) => {
       const searchText = req.params.text;
